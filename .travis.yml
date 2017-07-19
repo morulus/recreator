@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- 6.10.3
+before_script:
+- npm run build
+deploy:
+  api_key:
+    secure: H4KTCR1VOSBZiXW8zHeu+rITH2tSxYrjHt4Q8X7Q5ZOzqDSFn/ZHl615Od9NWfgHWoK9GKKvUUAFO6VF6yJlcn5GXV7tqvbCR0rnrP/DYpDqNI/eyMT01p0NoftP1UVTucrBPcMzO9z5SgLwZ68fizA6PTrw+64VYpsKE/kbvNrsITVeWJNCbRCijDkIo8ghvrtVGLfUOpd3VrFdZwQ3yvdou9uGDb6LhAWIdMEivZ5+OeuvWc4OPn5rkPw/vilns2iub7oQhBI0kBAPscjhNQwFo1Y5OyKLZGqGCFMCZ77pjY5KSU4ujZSkHDxmPbLK9VIFdNzpWcysq9cm9Y/DogKL1Cy4aM+QqAZNjynJSljZeiWrjTJBLtzvhk12Ah1gPwDbp2rJhHXbLDRFJ7psEbV54XGBeLtt3cBNoqjdaugQ5SaP28hYGI6QiInIOJgkzoX0hZBqZ72LG0v8SHrWhf6uAKo+B4rqw2sJb6Im2KF+TYsyMCILyuRj8kNZD8vk88tbzPSkOMJSACcDoIKugFXrjQWNssfq0hErJOMUuTf/vAuMjwg18cAsktCbUn1zjy/i1GzaroIzq5CewcerHzZqFxhFcuq4sUOCFEx02lQKB6Xh6kZR5NdJGIRq+NVHWf0/ZTBoyx+qSV+Ot+zDQ73KXE8fc28GumMd299pl24=
+  email: vladimirmorulus@gamil.com
+  provider: npm
+  skip_cleanup: true
+  before_script: npm run prepublish
+  on:
+    branch:
+    - master
