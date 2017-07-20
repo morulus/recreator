@@ -1,41 +1,43 @@
-const EMPTY_OBJECT = {};
+import isArray from './isArray';
+import isFunction from './isFunction';
+import isPlainObject from './isPlainObject';
+import assign from './assign';
 
-/* eslint-disable no-nested-ternary */
-function createIfFn(arg) {
-  return fn => (typeof fn === 'object'
-    ? fn : (typeof fn === 'function' ? fn(arg) : {}));
-}
-/* eslint-enable */
-
-function create(creators, arg) {
-  return Object.assign({}, ...creators.map(createIfFn(arg)));
+function toArray(a) {
+  return isArray(a) ? a : [a];
 }
 
-function reject(keys) {
-  return key => !keys.includes(key);
+function applyFactory(state, factory) {
+  if (isFunction(factory)) {
+    return factory(state);
+  } else if (isPlainObject(factory)) {
+    return Object.keys(factory)
+      .reduce((nextState, propKey) => assign(
+        nextState,
+        {
+          [propKey]: applyFactory(nextState, factory[propKey], nextState[propKey]),
+        },
+      ), state);
+  }
+  // Probably factory is not a factory
+  return factory;
 }
 
-export default function recreator(defaults = {}) {
-  return function creator(custom) {
+export function assembler(stock) {
+  return stock.reduce((state, factory) => applyFactory(state, factory), {});
+}
+
+export function createRecreator(stock = [], builder = assembler) {
+  return function creator(factories) {
     if (arguments.length === 0) {
-      return defaults;
+      if (stock.length === 0) {
+        throw new TypeError('Recreator requires at least one factory');
+      } else {
+        return builder(stock);
+      }
     }
-    const cookedKeys = [];
-    const domain = Object.keys(defaults).reduce((nextDomain, creatorKey) => {
-      const payload = create([defaults[creatorKey], custom[creatorKey]], nextDomain);
-      cookedKeys.push(creatorKey);
-      return {
-        ...nextDomain,
-        [creatorKey]: payload,
-      };
-    }, EMPTY_OBJECT);
-    const left = Object.keys(custom).filter(reject(cookedKeys));
-    return recreator(left.reduce((nextDomain, creatorKey) => {
-      const payload = create([custom[creatorKey]], nextDomain);
-      return {
-        ...nextDomain,
-        [creatorKey]: payload,
-      };
-    }, domain));
+    return createRecreator(stock.concat(toArray(factories)), builder);
   };
 }
+
+export default createRecreator();

@@ -1,4 +1,4 @@
-import recreator from './src';
+import { evolve } from '../src';
 
 function createA() {
   return {
@@ -34,7 +34,7 @@ function createD() {
 
 describe('recreator', () => {
   it('Recreator, called with object, must return function', () => {
-    const bar = recreator({
+    const bar = evolve({
       a: createA,
       b: createB,
     });
@@ -49,7 +49,7 @@ describe('recreator', () => {
     expect(typeof bar3).toBe('function');
   });
   it('Recreator, called with no arguments, must returns object', () => {
-    const bar = recreator({
+    const bar = evolve({
       a: createA,
       b: createB,
     });
@@ -57,7 +57,7 @@ describe('recreator', () => {
     expect(typeof result).toBe('object');
   });
   it('Recreator must merge all creators results', () => {
-    const result = recreator({
+    const result = evolve({
       a: createA,
     })({
       b: createB,
