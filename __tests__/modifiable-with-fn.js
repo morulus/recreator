@@ -29,6 +29,6 @@ describe('accrue recreator with common factores', () => {
     expect(result.beta).toEqual(4);
     expect(result.omega).toEqual(6);
     expect(result.zetta).toEqual(0);
-    expect(result.opra).toEqual(undefined);
+    expect(result.opra).toEqual(-1);
   });
 });
