@@ -6,7 +6,11 @@ import defaultSelector from './defaultSelector';
 export default function applyFactory(state, factory, selector = defaultSelector) {
   const localState = selector(state);
   if (isFunction(factory)) {
-    return Object.assign(localState, factory(state));
+    const result = factory(state);
+    if (isPlainObject(result)) {
+      return Object.assign(localState, factory(state));
+    }
+    selector(state, result);
   } else if (isPlainObject(factory)) {
     const keys = Object.keys(factory);
     keys.forEach((propKey) => {
