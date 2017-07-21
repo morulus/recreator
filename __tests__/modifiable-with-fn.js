@@ -1,4 +1,4 @@
-import { evolve } from '../src';
+import { modifiable } from '../src';
 
 function stageA() {
   return {
@@ -18,9 +18,9 @@ function stageB({ alfa, beta, omega }) {
   };
 }
 
-describe('recreator evolve with common factores', () => {
+describe('accrue recreator with common factores', () => {
   it('Evolver, called with object, must return function', () => {
-    const bar = evolve(stageA);
+    const bar = modifiable(stageA);
     expect(typeof bar).toBe('function');
     const bar2 = bar(stageB);
     expect(typeof bar2).toBe('function');

@@ -1,43 +1,24 @@
 import isArray from './isArray';
-import isFunction from './isFunction';
-import isPlainObject from './isPlainObject';
-import assign from './assign';
+import accrueAssembler from './assemblers/accrue';
+import evolveAssembler from './assemblers/evolve';
 
 function toArray(a) {
   return isArray(a) ? a : [a];
 }
 
-function applyFactory(state, factory) {
-  if (isFunction(factory)) {
-    return factory(state);
-  } else if (isPlainObject(factory)) {
-    return Object.keys(factory)
-      .reduce((nextState, propKey) => assign(
-        nextState,
-        {
-          [propKey]: applyFactory(nextState, factory[propKey], nextState[propKey]),
-        },
-      ), state);
-  }
-  // Probably factory is not a factory
-  return factory;
-}
-
-export function assembler(stock) {
-  return stock.reduce((state, factory) => applyFactory(state, factory), {});
-}
-
-export function createRecreator(stock = [], builder = assembler) {
-  return function creator(factories) {
+export function createRecreator(seed = [], assembler = accrueAssembler) {
+  return function seeder(factories) {
     if (arguments.length === 0) {
-      if (stock.length === 0) {
+      if (seed.length === 0) {
         throw new TypeError('Recreator requires at least one factory');
       } else {
-        return builder(stock);
+        return assembler(seed);
       }
     }
-    return createRecreator(stock.concat(toArray(factories)), builder);
+    return createRecreator(seed.concat(toArray(factories)), assembler);
   };
 }
 
+export const modifiable = createRecreator(undefined, accrueAssembler);
+export const improvable = createRecreator(undefined, evolveAssembler);
 export default createRecreator();

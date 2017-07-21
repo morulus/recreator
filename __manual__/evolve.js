@@ -1,20 +1,16 @@
-import { evolve } from '../src';
+import { improvable } from '../src';
 
-const bar = evolve({
-  first: () => ({
-    a: 1,
-    b: 2,
-    c: 3,
+const bar = improvable({
+  constants: () => ({
+    name: 'Accruer',
   }),
-  second: () => ({
-    a: 1,
-    b: 2,
+  factories: ({ constants: { name } }) => ({
+    getHello() { return `Hello, ${name}`; },
   }),
 })({
-  first: ({ first }) => ({
-    ...first,
-    z: 4,
+  constants: () => ({
+    name: 'Evolver',
   }),
 });
 
-console.log(bar());
+console.log(bar().factories.getHello());

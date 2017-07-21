@@ -12,7 +12,7 @@
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src -d lib",
     "prepublish": "npm run clean && npm run build",
     "clean": "rimraf es lib",
-    "manual": "node manualTest.js"
+    "manual": "node manualTester.js"
   },
   "keywords": [],
   "author": "Vladimir Kalmykov <vladimirmorulus@gmail.com>",
