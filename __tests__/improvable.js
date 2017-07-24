@@ -1,8 +1,8 @@
-import { improvable } from '../src';
+import recreator from '../src';
 
 describe('improvable', () => {
   it('First stage must use values from second stage', () => {
-    const bar = improvable({
+    const bar = recreator({
       constants: () => ({
         name: 'Accruer',
       }),
@@ -30,7 +30,7 @@ describe('improvable', () => {
         a: 3,
       };
     });
-    const bar = improvable({
+    const bar = recreator({
       prop: () => ({
         a: 1,
       }),
@@ -56,7 +56,7 @@ describe('improvable', () => {
         a: 3,
       };
     });
-    improvable({
+    recreator({
       prop: () => ({
         a: 1,
       }),

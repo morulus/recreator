@@ -1,4 +1,4 @@
-import { modifiable } from '../src';
+import recreator from '../src';
 
 function createA() {
   return {
@@ -34,7 +34,7 @@ function createD() {
 
 describe('recreator', () => {
   it('Recreator, called with object, must return function', () => {
-    const bar = modifiable({
+    const bar = recreator({
       a: createA,
       b: createB,
     });
@@ -49,7 +49,7 @@ describe('recreator', () => {
     expect(typeof bar3).toBe('function');
   });
   it('Recreator, called with no arguments, must returns object', () => {
-    const bar = modifiable({
+    const bar = recreator({
       a: createA,
       b: createB,
     });
@@ -57,7 +57,7 @@ describe('recreator', () => {
     expect(typeof result).toBe('object');
   });
   it('Recreator must merge all creators results', () => {
-    const result = modifiable({
+    const result = recreator({
       a: createA,
     })({
       b: createB,

@@ -1,59 +1,66 @@
 recreator
 ==
 
+Magic object factory where each next property can be calculated based on previously defined properties or their future modifications.
+
 Mechanic
 ----
 
-### Cyclic stratification (evolve)
+Simple example:
+```js
+const bar = recreator({
+  a: 1,
+  b: ({ a }) => a + 1,
+  c: ({ b }) => b + 1,
+}); // : function
 
-__Cycle 1__
+const foo = bar();
+foo.c; // 3
 
-A0
-A0 => B0
-A0 B0 => C0
+// This is not the end
+// Let modif some part of `bar`
 
-__Cycle 2__
+const bar2 = bar({
+  a: 2,
+});
 
-A0 B0 C0 => __A1__
-__A1__ B0 C0 => __B1__
-__A1__ __B1__ C0 => __C1__
+const foo2 = bar2();
+foo2.c; // 4
 
-__Result__
+```
 
-__A1 B1 C1__
+One more example:
 
-### Cyclic stratification with autoextend (accrue)
+```js
+const helloSayer = recreator({
+  name: 'Anonym',
+  getText: ({ name }) => () => `Hello, ${name}`,
+});
 
-__Cycle 1__
+const helloVova = helloSayer({
+  name: 'Vova',
+})();
 
-A0
-A0 => B0
-A0 B0 => C0
+const helloSveta = helloSayer({
+  name: 'Sveta',
+})();
 
-__Cycle 2__
+const helloAnya = helloSayer({
+  name: 'Anya',
+})();
 
-A0 B0 C0 => __A1__
-__(A0+A1)__ B0 C0 => __B1__
-__(A0+A1__ __(B0+B1)__ C0 => __C1__
+const helloWorld = helloSayer({
+  name: 'World',
+  say: ({ getText }) => () => console.log(getText()),
+})();
 
-__Result__
+helloVova.getText(); // Hello, Vova
+helloSveta.getText(); // Hello, Sveta
+helloAnya.getText(); // Hello, Anya
+helloWorld.say();
+// console: Hello, World
 
-__(A0+A1) (B0+B1) (C0+C1)__
-
-### Consistent stratification (waterfall)
-
-A0
-A0 => __A1__
-__A1__ => B0
-__A1__ B0 => __B1__
-__A1__ __B1__ => C0
-__A1__ __B1__ C0 => __C1__
-
-__Result__
-
-
-
-__Cycle 1__
+```
 
 Author
 ----

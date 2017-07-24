@@ -1,8 +1,8 @@
-import { improvable } from '../src';
+import recreator from '../src';
 
 describe('Immutability', () => {
   it('Improvable is immutable', () => {
-    const bar = improvable({
+    const bar = recreator({
       constants: () => ({
         name: 'Accruer',
       }),
@@ -26,7 +26,7 @@ describe('Immutability', () => {
     expect(resultB.api.getHello()).toEqual('Hello, Bar-B');
   });
   it('Improvable is deeply immutable', () => {
-    const bar = improvable({
+    const bar = recreator({
       constants: {
         texts: () => ({
           greating: 'Hello',

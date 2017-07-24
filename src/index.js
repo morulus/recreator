@@ -1,12 +1,11 @@
 import isArray from './isArray';
-import accrueAssembler from './assemblers/accrue';
-import evolveAssembler from './assemblers/evolve';
+import imposeAssembler from './impose';
 
 function toArray(a) {
   return isArray(a) ? a : [a];
 }
 
-export function createRecreator(seed = [], assembler = accrueAssembler) {
+export function createRecreator(seed = [], assembler = imposeAssembler) {
   return function seeder(factories) {
     if (arguments.length === 0) {
       if (seed.length === 0) {
@@ -19,6 +18,4 @@ export function createRecreator(seed = [], assembler = accrueAssembler) {
   };
 }
 
-export const modifiable = createRecreator(undefined, accrueAssembler);
-export const improvable = createRecreator(undefined, evolveAssembler);
-export default createRecreator();
+export default createRecreator(undefined, imposeAssembler);
