@@ -3,6 +3,13 @@ recreator
 
 Magic object factory where each next property can be calculated based on previously defined properties or their future modifications.
 
+Usage:
+----
+
+```
+import recreator from 'recreator';
+```
+
 Mechanic
 ----
 
