@@ -13,8 +13,3 @@ export default function imposeAssembler(stock) {
   return state;
 }
 /* eslint-enable */
-
-/**
-
-
-**/

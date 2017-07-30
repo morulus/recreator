@@ -5,7 +5,7 @@ function toArray(a) {
   return isArray(a) ? a : [a];
 }
 
-export function createRecreator(seed = [], assembler = imposeAssembler) {
+function createRecreator(seed = [], assembler = imposeAssembler) {
   return function seeder(factories) {
     if (arguments.length === 0) {
       if (seed.length === 0) {
@@ -18,4 +18,8 @@ export function createRecreator(seed = [], assembler = imposeAssembler) {
   };
 }
 
-export default createRecreator(undefined, imposeAssembler);
+const recreator = createRecreator(undefined, imposeAssembler);
+
+recreator.createRecreator = createRecreator;
+
+export default recreator;
