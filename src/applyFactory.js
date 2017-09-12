@@ -35,7 +35,7 @@ function threadDeep(object, path) {
     return object;
   }
   if (!isPlainObject(object)) {
-    throw TypeError('Exprected plain object');
+    return BAILOUT;
   }
   let current = object;
   for (let i = 0; i < path.length - 1; i++) {

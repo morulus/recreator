@@ -1,4 +1,6 @@
 import isArray from './isArray';
+import isFunction from './isFunction';
+import isPlainObject from './isPlainObject';
 import imposeAssembler from './impose';
 
 function toArray(a) {
@@ -14,7 +16,14 @@ function createRecreator(seed = [], assembler = imposeAssembler) {
         return assembler(seed);
       }
     }
-    return createRecreator(seed.concat(toArray(factories)), assembler);
+    const nextSeed = seed
+      .concat(toArray(factories));
+    const resortedSeed = nextSeed.filter(isPlainObject)
+      .concat(nextSeed.filter(isFunction));
+    return createRecreator(
+      resortedSeed,
+      assembler,
+    );
   };
 }
 

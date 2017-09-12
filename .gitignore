@@ -2,3 +2,4 @@ node_modules
 lib
 es
 test-common.js
+coverage

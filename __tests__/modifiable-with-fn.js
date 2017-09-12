@@ -6,6 +6,7 @@ function stageA() {
     beta: 2,
     omega: 3,
     opra: -1,
+    stage: 'A',
   };
 }
 
@@ -15,6 +16,7 @@ function stageB({ alfa, beta, omega }) {
     beta: beta + 2,
     omega: omega + 3,
     zetta: 0,
+    stage: 'B',
   };
 }
 
@@ -25,6 +27,7 @@ describe('accrue recreator with common factores', () => {
     const bar2 = bar(stageB);
     expect(typeof bar2).toBe('function');
     const result = bar2();
+    expect(result.stage).toEqual('B');
     expect(result.alfa).toEqual(2);
     expect(result.beta).toEqual(4);
     expect(result.omega).toEqual(6);
