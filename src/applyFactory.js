@@ -32,9 +32,9 @@ function threadDeep(object, path) {
   }
   // Unreachable block. There is no cases when this conditional block executes
   // But addditional QA test requires
-  // if (!isPlainObject(object)) {
-  //   return BAILOUT;
-  // }
+  if (!isPlainObject(object)) {
+    return BAILOUT;
+  }
   let current = object;
   for (let i = 0; i < path.length - 1; i++) {
     if (!isPlainObject(current[path[i]])) {
@@ -81,10 +81,10 @@ function walk(objects, startIndex, workedOut, handler, path = [], payload = {}) 
       continue;
     }
     const regular = threadDeep(objects[index], path);
-    // if (regular !== BAILOUT) {
-    addworkedOutPath(index, workedOut, path);
-    handler(regular, path, getRewalk(index), payload);
-    // }
+    if (regular !== BAILOUT) {
+      addworkedOutPath(index, workedOut, path);
+      handler(regular, path, getRewalk(index), payload);
+    }
   }
 }
 
