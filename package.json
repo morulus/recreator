@@ -1,6 +1,6 @@
 {
   "name": "recreator",
-  "version": "0.3.0-beta.2",
+  "version": "0.3.0",
   "description": "Object factory with polyconstructors and post reassignment",
   "main": "lib/index.js",
   "module": "es/index.js",

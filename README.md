@@ -3,6 +3,7 @@ recreator
 
 An expressive way to make factory with customizable nested structure. To best understanding conceptual difference from classic factories and classes, imaginate that you work with ES modules tree with one entry point, and each module of nested hierarchy structure you can customize to get new new instance of entry point, holding immutablity of previously.
 
+
 Install:
 ----
 
@@ -228,6 +229,10 @@ Author
 ----
 
 Vladimir Kalmykov <vladimirmorulus@gmail.com>
+
+0.3.0
+----
+Released 0.3.0. Now functions passed to the factory executes last. Old style <0.2.0 where functions passed to the factory and executes in normal order is no longer available.
 
 License
 ----
