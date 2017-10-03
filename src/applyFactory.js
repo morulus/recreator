@@ -2,7 +2,7 @@
 import isPlainObject from './isPlainObject';
 import isFunction from './isFunction';
 
-// const BAILOUT = Symbol('BAILOUT');
+const BAILOUT = Symbol('BAILOUT');
 
 function inject(state, path, data = {}) {
   if (path.length === 0) {
@@ -37,10 +37,9 @@ function threadDeep(object, path) {
   // }
   let current = object;
   for (let i = 0; i < path.length - 1; i++) {
-    // Unreachable block
-    // if (!isPlainObject(current[path[i]])) {
-    //   return BAILOUT;
-    // }
+    if (!isPlainObject(current[path[i]])) {
+      return BAILOUT;
+    }
     current = current[path[i]];
   }
   return current[path[path.length - 1]];
