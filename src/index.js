@@ -11,17 +11,20 @@ function createRecreator(seed = [], assembler = imposeAssembler) {
   return function seeder(factories) {
     if (arguments.length === 0) {
       if (seed.length === 0) {
-        throw new TypeError('Recreator requires at least one factory');
-      } else {
-        return assembler(seed);
+        return {}; // No factory. Return empty object
       }
+      return assembler(seed);
     }
     const nextSeed = seed
       .concat(toArray(factories));
-    const resortedSeed = nextSeed.filter(isPlainObject)
-      .concat(nextSeed.filter(isFunction));
+    const objectiveSeed = nextSeed.filter(isPlainObject);
+    const functionalSeed = nextSeed.filter(isFunction);
+    if (objectiveSeed.length + functionalSeed.length !== nextSeed.length) {
+      throw new TypeError('Fabric passed to the factory must be plain object or a function');
+    }
+    const combinedSeed = objectiveSeed.concat(functionalSeed);
     return createRecreator(
-      resortedSeed,
+      combinedSeed,
       assembler,
     );
   };

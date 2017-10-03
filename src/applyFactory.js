@@ -2,19 +2,15 @@
 import isPlainObject from './isPlainObject';
 import isFunction from './isFunction';
 
-const BAILOUT = Symbol('BAILOUT');
+// const BAILOUT = Symbol('BAILOUT');
 
 function inject(state, path, data = {}) {
-  if (!isPlainObject(state)) {
-    throw TypeError('Exprected plain object');
-  }
   if (path.length === 0) {
-    if (!isPlainObject(data)) {
-      throw TypeError('Non-object can not be injected to the empty path');
-    } else {
-      Object.assign(state, data);
-    }
+    Object.assign(state, data);
   } else {
+    if (data !== null && typeof data === 'object' && !isPlainObject(data)) {
+      throw TypeError(`Nested structure with non plain object at <factory>.${path}`);
+    }
     let target = state;
     for (let i = 0; i < path.length - 1; i++) {
       if (!isPlainObject(target[path[i]])) {
@@ -34,14 +30,17 @@ function threadDeep(object, path) {
   if (path.length === 0) {
     return object;
   }
-  if (!isPlainObject(object)) {
-    return BAILOUT;
-  }
+  // Unreachable block. There is no cases when this conditional block executes
+  // But addditional QA test requires
+  // if (!isPlainObject(object)) {
+  //   return BAILOUT;
+  // }
   let current = object;
   for (let i = 0; i < path.length - 1; i++) {
-    if (!isPlainObject(current[path[i]])) {
-      return BAILOUT;
-    }
+    // Unreachable block
+    // if (!isPlainObject(current[path[i]])) {
+    //   return BAILOUT;
+    // }
     current = current[path[i]];
   }
   return current[path[path.length - 1]];
@@ -83,10 +82,10 @@ function walk(objects, startIndex, workedOut, handler, path = [], payload = {}) 
       continue;
     }
     const regular = threadDeep(objects[index], path);
-    if (regular !== BAILOUT) {
-      addworkedOutPath(index, workedOut, path);
-      handler(regular, path, getRewalk(index), payload);
-    }
+    // if (regular !== BAILOUT) {
+    addworkedOutPath(index, workedOut, path);
+    handler(regular, path, getRewalk(index), payload);
+    // }
   }
 }
 
