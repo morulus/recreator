@@ -1,7 +1,7 @@
 {
   "name": "recreator",
   "version": "0.3.0",
-  "description": "Object factory with polyconstructors and post reassignment",
+  "description": "Composite factory creator",
   "main": "lib/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
@@ -28,7 +28,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
     "cross-env": "^5.0.0",
-    "eslint": "3.19.0",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-config-react-app": "0.6.2",
     "eslint-loader": "1.6.0",
